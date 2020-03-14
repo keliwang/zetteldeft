@@ -46,10 +46,9 @@ blockquote {
 /* Heading 1 - Title */
 h1 {
     font-family: 'Alegreya SC';
-    text-transform: lowercase;
     font-size: 200%;
     line-height: 1.1;
-	  text-align: left;
+    text-align: left;
  /* Margins & padding */
     margin-top: 2.5rem;
     margin-bottom: 1em;
