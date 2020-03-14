@@ -1,0 +1,27 @@
+#+title: Introducing Zetteldeft
+#+author: EFLS
+#+date: 2018-2020
+:export:
+#+OPTIONS: date:nil toc:nil H:4 tags:nil
+#+EXPORT_FILE_NAME: ./docs/index
+#+HTML_HEAD: <link rel='stylesheet' href='style.css' type='text/css'/>
+:end:
+
+Zetteldeft is an extension of the =deft= package for Emacs.
+It provides a set of functions to easily link short notes together.
+As the name suggests, Zetteldeft is inspired by the now famous Zettelkasten system first implemented by the German sociologist, long before the Personal Computer appeared.
+In our digital times, however, a Zettelkasten note-taking system is a lot like (though not the same as) a personal Wiki-like system of taking notes.
+
+This introduction won't try to explain what a Zettelkasten is or what you might use it for.
+To that end, the internet provides various resources.
+In this text I want to briefly introduce what =zetteldeft= allows you to do.
+
+Before we get started, two pointers:
+ - in an attempt at "literate programming", both source code and additional documentation are available [[./zetteldeft.org][here]]
+ - please submit issues, questions or pull request via [[https://github.com/efls/zetteldeft][github]].
+
+# Key concepts
+
+# Basic features
+
+# Advanced features
