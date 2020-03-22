@@ -498,7 +498,7 @@ zetteldeft directory."
 
 (defun zetteldeft--list-entry-file-link (zdFile)
   "Insert ZDFILE as list entry."
-  (insert " - " (zetteldeft-create-zetteldeft-link (concat (file-name-base zdFile) "\n"))))
+  (insert " - " (zetteldeft-create-zetteldeft-link (concat (file-name-base zdFile))) "\n"))
 
 (defun zetteldeft-org-search-include (zdSrch)
   "Insert `org-mode' syntax to include all files containing ZDSRCH.
