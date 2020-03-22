@@ -492,13 +492,13 @@ zetteldeft directory."
     (if zdFinalIDs
         (dolist (zdID zdFinalIDs)
           (setq zdID (zetteldeft--id-to-full-title zdID))
-          (insert " - " (zetteldeft-create-zetteldeft-link (concat zdID "\n")))
+          (insert " - " (zetteldeft-create-zetteldeft-link (concat zdID "\n"))))
       ;; unless the list is empty, then insert a message
       (insert (format zetteldeft-list-links-missing-message zdSrch)))))
 
 (defun zetteldeft--list-entry-file-link (zdFile)
   "Insert ZDFILE as list entry."
-  (insert " - " (zetteldeft-create-zetteldeft-link (concat (file-name-base zdFile)) "\n")))
+  (insert " - " (zetteldeft-create-zetteldeft-link (concat (file-name-base zdFile) "\n"))))
 
 (defun zetteldeft-org-search-include (zdSrch)
   "Insert `org-mode' syntax to include all files containing ZDSRCH.
