@@ -166,6 +166,11 @@ Set it so that it matches strings generated with
   :group 'zetteldeft
   :set 'zetteldeft--id-font-lock-setup)
 
+(defcustom zetteldeft-use-wiki-link-as-zetteldeft-link t
+  "Options to use wiki link as zetteldeft link."
+  :type 'boolean
+  :group 'zetteldeft)
+
 (defcustom zetteldeft-link-indicator "§"
   "String to indicate zetteldeft links.
 String prepended to IDs to easily identify them as links to zetteldeft notes.
@@ -178,6 +183,12 @@ This variable should be a string containing only one character."
   "Regular expression for zetteldeft tags."
   :type 'string
   :group 'zetteldeft)
+
+(defun zetteldeft-create-zetteldeft-link (link)
+  "Create zetteldef link from raw LINK."
+  (if zetteldeft-use-wiki-link-as-zetteldeft-link
+      (concat "[[" link "]]")
+    (concat zetteldeft-link-indicator link)))
 
 (defun zetteldeft--lift-id (str)
   "Extract zetteldeft ID from STR.
@@ -200,14 +211,14 @@ This is done with the regular expression stored in
   (interactive (list
     (completing-read "File to insert id from: "
       (deft-find-all-files-no-prefix))))
-  (insert (concat zetteldeft-link-indicator (zetteldeft--lift-id file))))
+  (insert (zetteldeft-create-zetteldeft-link (zetteldeft--lift-id file))))
 
 (defun zetteldeft-find-file-full-title-insert (file)
   "Find deft file FILE and insert a link with title."
   (interactive (list
     (completing-read "File to insert full title from: "
       (deft-find-all-files-no-prefix))))
-  (insert (concat zetteldeft-link-indicator (file-name-base file))))
+  (insert (zetteldeft-create-zetteldeft-link (file-name-base file))))
 
 (declare-function evil-insert-state "evil")
 
@@ -232,7 +243,7 @@ When `evil' is loaded, enter insert state."
   "Insert generated id with `zetteldeft-id-format' appended with STR.
 Creates new deft file with id and STR as name."
   (interactive (list (read-string "name: ")))
-  (insert zetteldeft-link-indicator (zetteldeft-generate-id) " " str)
+  (insert (zetteldeft-create-zetteldeft-link (concat (zetteldeft-generate-id) " " str)))
   (zetteldeft-new-file str))
 
 (defun zetteldeft-follow-link ()
@@ -240,7 +251,7 @@ Creates new deft file with id and STR as name."
 Prompts for a link to follow with `zetteldeft-avy-file-search' if it isn't."
   (interactive)
   (if (thing-at-point-looking-at
-        (concat zetteldeft-link-indicator zetteldeft-id-regex))
+        (zetteldeft-create-zetteldeft-link zetteldeft-id-regex))
       (zetteldeft--search-filename
         (zetteldeft--lift-id (zetteldeft--get-thing-at-point)))
     (zetteldeft-avy-file-search)))
@@ -391,7 +402,7 @@ Add the id from the filename the buffer is currently visiting to the
 kill ring."
   (interactive)
   (zetteldeft--check)
-  (let ((ID (concat zetteldeft-link-indicator
+  (let ((ID (zetteldeft-create-zetteldeft-link
                     (zetteldeft--lift-id (file-name-base (buffer-file-name))))))
     (kill-new ID)
     (message "%s" ID)))
@@ -481,13 +492,13 @@ zetteldeft directory."
     (if zdFinalIDs
         (dolist (zdID zdFinalIDs)
           (setq zdID (zetteldeft--id-to-full-title zdID))
-          (insert " - " (concat zetteldeft-link-indicator zdID "\n")))
+          (insert " - " (zetteldeft-create-zetteldeft-link (concat zdID "\n")))
       ;; unless the list is empty, then insert a message
       (insert (format zetteldeft-list-links-missing-message zdSrch)))))
 
 (defun zetteldeft--list-entry-file-link (zdFile)
   "Insert ZDFILE as list entry."
-  (insert " - " (concat zetteldeft-link-indicator (file-name-base zdFile)) "\n"))
+  (insert " - " (zetteldeft-create-zetteldeft-link (concat (file-name-base zdFile)) "\n")))
 
 (defun zetteldeft-org-search-include (zdSrch)
   "Insert `org-mode' syntax to include all files containing ZDSRCH.
